@@ -12,19 +12,7 @@ namespace GMap.NET.WindowsForms
     [Serializable]
     public abstract class GMapMarker : ISerializable, IDisposable
     {
-        GMapOverlay _overlay;
-
-        public GMapOverlay Overlay
-        {
-            get
-            {
-                return _overlay;
-            }
-            internal set
-            {
-                _overlay = value;
-            }
-        }
+        public GMapOverlay Overlay { get; internal set; }
 
         private PointLatLng _position;
 
@@ -38,6 +26,7 @@ namespace GMap.NET.WindowsForms
             {
                 if (_position != value)
                 {
+                    var oldPosition = _position;
                     _position = value;
 
                     if (IsVisible)
@@ -47,8 +36,23 @@ namespace GMap.NET.WindowsForms
                             Overlay.Control.UpdateMarkerLocalPosition(this);
                         }
                     }
+
+                    // Notify listeners the markers position has been changed..
+                    OnPositionChanged(new PositionChangedEventArgs(oldPosition, _position));
                 }
             }
+        }
+
+        public event EventHandler<PositionChangedEventArgs> PositionChanged;
+
+        protected virtual void OnPositionChanged(PositionChangedEventArgs e)
+        {
+            RaisePositionChanged(e);
+        }
+
+        protected void RaisePositionChanged(PositionChangedEventArgs e)
+        {
+            PositionChanged?.Invoke(this, e);
         }
 
         public object Tag;
@@ -217,22 +221,10 @@ namespace GMap.NET.WindowsForms
         /// </summary>
         public bool IsHitTestVisible = true;
 
-        private bool _isMouseOver;
-
         /// <summary>
         ///     is mouse over marker
         /// </summary>
-        public bool IsMouseOver
-        {
-            get
-            {
-                return _isMouseOver;
-            }
-            internal set
-            {
-                _isMouseOver = value;
-            }
-        }
+        public bool IsMouseOver { get; internal set; }
 
         public GMapMarker(PointLatLng pos)
         {
@@ -328,6 +320,18 @@ namespace GMap.NET.WindowsForms
     public delegate void MarkerEnter(GMapMarker item);
 
     public delegate void MarkerLeave(GMapMarker item);
+
+    public class PositionChangedEventArgs : EventArgs
+    {
+        public readonly PointLatLng OldValue;
+        public readonly PointLatLng NewValue;
+
+        public PositionChangedEventArgs(PointLatLng oldValue, PointLatLng newValue)
+        {
+            OldValue = oldValue;
+            NewValue = newValue;
+        }
+    }
 
     /// <summary>
     ///     modeof tooltip
