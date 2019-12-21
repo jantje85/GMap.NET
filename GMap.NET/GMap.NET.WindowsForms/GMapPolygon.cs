@@ -61,22 +61,10 @@ namespace GMap.NET.WindowsForms
         /// </summary>
         public bool IsHitTestVisible = false;
 
-        private bool _isMouseOver;
-
         /// <summary>
         ///     is mouse over
         /// </summary>
-        public bool IsMouseOver
-        {
-            get
-            {
-                return _isMouseOver;
-            }
-            internal set
-            {
-                _isMouseOver = value;
-            }
-        }
+        public bool IsMouseOver { get; internal set; }
 
         public GMapOverlay Overlay { get; set; }
 
@@ -184,7 +172,7 @@ namespace GMap.NET.WindowsForms
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        public bool IsInside(PointLatLng p)
+        public virtual bool IsInside(PointLatLng p)
         {
             int count = Points.Count;
 
