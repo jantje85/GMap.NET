@@ -236,6 +236,37 @@ namespace GMap.NET.WindowsForms
             //
         }
 
+        /// <summary>
+        /// Check whether the point determined by the given coordinates is within the area of the marker.
+        /// </summary>
+        /// <param name="x">X-coordinate of the position to be tested.</param>
+        /// <param name="y">Y-coordinate of the position to be tested.</param>
+        /// <returns>Returns <see langword="true"/> if the given position is inside the <see cref="LocalArea"/>.</returns>
+        public virtual bool Contains(int x, int y)
+        {
+            return LocalArea.Contains(x, y);
+        }
+
+        /// <summary>
+        /// Check whether given <see cref="Point"/> is within the area of the marker.
+        /// </summary>
+        /// <param name="pt">Point to be tested.</param>
+        /// <returns>Returns <see langword="true"/> if the given <see cref="Point"/> is inside the <see cref="LocalArea"/>.</returns>
+        public virtual bool Contains(Point pt)
+        {
+            return LocalArea.Contains(pt);
+        }
+
+        /// <summary>
+        /// Check whether given <see cref="Rectangle"/> is contained within the area of the marker.
+        /// </summary>
+        /// <param name="rect">Rectangle to be tested.</param>
+        /// <returns>Returns <see langword="true"/> if the given <see cref="Rectangle"/> is inside the <see cref="LocalArea"/>.</returns>
+        public virtual bool Contains(Rectangle rect)
+        {
+            return LocalArea.Contains(rect);
+        }
+
         #region ISerializable Members
 
         /// <summary>
