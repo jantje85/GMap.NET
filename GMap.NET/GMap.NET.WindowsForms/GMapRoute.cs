@@ -93,12 +93,12 @@ namespace GMap.NET.WindowsForms
         }
 
         /// <summary>
-        ///     Indicates whether the specified point is contained within this System.Drawing.Drawing2D.GraphicsPath
+        /// Indicates whether the specified point is contained within this <see cref="GraphicsPath"/>.
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        internal bool IsInside(int x, int y)
+        public virtual bool IsInside(int x, int y)
         {
             if (_graphicsPath != null)
             {
