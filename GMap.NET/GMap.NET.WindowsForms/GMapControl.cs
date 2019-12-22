@@ -1925,8 +1925,8 @@ namespace GMap.NET.WindowsForms
                 {
                     _isDragging = false;
                     Debug.WriteLine("IsDragging = " + _isDragging);
-                    Cursor = _cursorBefore;
-                    _cursorBefore = null;
+                    if (_cursorsBefore.Count > 0)
+                        Cursor = _cursorsBefore.Pop();
                 }
 
                 Core.EndDrag();
@@ -2045,7 +2045,7 @@ namespace GMap.NET.WindowsForms
 
                 if (!overlayObjet && Core.MouseDown != GPoint.Empty)
                     OnMapClick?.Invoke(FromLocalToLatLng(e.X, e.Y), e);
-            }                       
+            }
         }
 
         protected override void OnMouseDoubleClick(MouseEventArgs e)
@@ -2172,7 +2172,7 @@ namespace GMap.NET.WindowsForms
             return ret;
         }
 
-        Cursor _cursorBefore = Cursors.Default;
+        Stack<Cursor> _cursorsBefore = new Stack<Cursor>(new[] { Cursors.Default });
 
         /// <summary>
         ///     Gets the width and height of a rectangle centered on the point the mouse
@@ -2201,7 +2201,7 @@ namespace GMap.NET.WindowsForms
                     _isDragging = true;
                     Debug.WriteLine("IsDragging = " + _isDragging);
 
-                    _cursorBefore = Cursor;
+                    _cursorsBefore.Push(Cursor);
                     Cursor = Cursors.SizeAll;
                 }
 
@@ -2383,11 +2383,11 @@ namespace GMap.NET.WindowsForms
 
         internal void RestoreCursorOnLeave()
         {
-            if (OverObjectCount <= 0 && _cursorBefore != null)
+            if (OverObjectCount <= 0 && _cursorsBefore != null)
             {
                 OverObjectCount = 0;
-                Cursor = _cursorBefore;
-                _cursorBefore = null;
+                if (_cursorsBefore.Count > 0)
+                    Cursor = _cursorsBefore.Pop();
             }
         }
 
@@ -2396,7 +2396,7 @@ namespace GMap.NET.WindowsForms
             if (OverObjectCount <= 0 && Cursor != Cursors.Hand)
             {
                 OverObjectCount = 0;
-                _cursorBefore = Cursor;
+                _cursorsBefore.Push(Cursor);
                 Cursor = Cursors.Hand;
             }
         }
