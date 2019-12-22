@@ -11,19 +11,7 @@ namespace GMap.NET.WindowsForms
     [Serializable]
     public class GMapToolTip : ISerializable, IDisposable
     {
-        GMapMarker _marker;
-
-        public GMapMarker Marker
-        {
-            get
-            {
-                return _marker;
-            }
-            internal set
-            {
-                _marker = value;
-            }
-        }
+        public GMapMarker Marker { get; internal set; }
 
         public Point Offset;
 
@@ -35,10 +23,10 @@ namespace GMap.NET.WindowsForms
         [NonSerialized] public readonly StringFormat Format = DefaultFormat;
 
         public static readonly Font DefaultFont =
-            new Font(FontFamily.GenericSansSerif, 11, FontStyle.Regular, GraphicsUnit.Pixel);
+            new Font(FontFamily.GenericMonospace, 11, FontStyle.Regular, GraphicsUnit.Pixel);
 
         public static readonly Font TitleFont =
-            new Font(FontFamily.GenericSansSerif, 11, FontStyle.Bold, GraphicsUnit.Pixel);
+            new Font(FontFamily.GenericMonospace, 11, FontStyle.Bold, GraphicsUnit.Pixel);
 
         /// <summary>
         ///     font
