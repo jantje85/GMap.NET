@@ -13,19 +13,7 @@ namespace GMap.NET.WindowsForms
     [Serializable]
     public class GMapRoute : MapRoute, ISerializable, IDeserializationCallback, IDisposable
     {
-        GMapOverlay _overlay;
-
-        public GMapOverlay Overlay
-        {
-            get
-            {
-                return _overlay;
-            }
-            internal set
-            {
-                _overlay = value;
-            }
-        }
+        public GMapOverlay Overlay { get; internal set; }
 
         private bool _visible = true;
 
@@ -75,22 +63,10 @@ namespace GMap.NET.WindowsForms
         /// </summary>
         public bool IsHitTestVisible = false;
 
-        private bool _isMouseOver;
-
         /// <summary>
         ///     is mouse over
         /// </summary>
-        public bool IsMouseOver
-        {
-            get
-            {
-                return _isMouseOver;
-            }
-            internal set
-            {
-                _isMouseOver = value;
-            }
-        }
+        public bool IsMouseOver { get; internal set; }
 
         /// <summary>
         /// Indicates whether the specified point is contained within this <see cref="GraphicsPath"/>.

@@ -74,7 +74,7 @@ namespace GMap.NET.WindowsForms
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        internal bool IsInsideLocal(int x, int y)
+        public virtual bool IsInsideLocal(int x, int y)
         {
             if (_graphicsPath != null)
             {
@@ -129,14 +129,6 @@ namespace GMap.NET.WindowsForms
                 }
             }
         }
-
-        //public double Area
-        //{
-        //   get
-        //   {
-        //      return 0;
-        //   }
-        //}
 
         public static readonly Pen DefaultStroke = new Pen(Color.FromArgb(155, Color.MidnightBlue));
 
