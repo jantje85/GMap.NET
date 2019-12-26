@@ -17,10 +17,21 @@ https://github.com/judero01col/GMap.NET/wiki
 We will follow upstream versioning; so refer to https://github.com/judero01col/GMap.NET for changes.
 Changes listed here are additional changes applied on top of the base library.
 
-## Version 1.9.9.5
-
-#### GMap.NET.Core
+## GMap.NET.Core
 - None
 
-#### GMap.NET.WinForms
-- None
+## GMap.NET.WinForms
+
+### Fixed tracking of multiple mouse cursor states
+Fixed a problem tracking the previous mouse cursor when doing multiple actions at the same time.
+
+### Support for more complex marker shapes.
+- GMapMarker provides 3 new virtual Contains() methods to determine whether a point is within a marker. Used for mouse over. 
+- GMapPolygon IsInside() and IsInsideLocal() are marked public virtual.
+- GMapRoute IsInside () is marked public virtual.
+
+### Marker provides a PositionChanged event.
+
+### Monospace tooltips
+
+### .Net 4.6.2 as the primary target framework
