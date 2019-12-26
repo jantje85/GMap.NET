@@ -11,7 +11,7 @@
         <AssemblyOriginatorKeyFile>../../sn.snk</AssemblyOriginatorKeyFile>
         <DefineConstants>MONO_disabled;SQLite;$(DefineConstants)</DefineConstants>
         <Prefer32Bit>false</Prefer32Bit>
-        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <RuntimeIdentifier>win-x86</RuntimeIdentifier>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
