@@ -676,13 +676,8 @@ namespace GMap.NET.WindowsForms
         /// <param name="marker"></param>
         public void UpdateMarkerLocalPosition(GMapMarker marker)
         {
-            var p = FromLatLngToLocal(marker.Position);
+            var p = FromLatLngToLocalWithOffset(marker.Position);
             {
-                if (!MobileMode)
-                {
-                    p.OffsetNegative(Core.RenderOffset);
-                }
-
                 marker.LocalPosition = new Point((int)(p.X + marker.Offset.X), (int)(p.Y + marker.Offset.Y));
             }
         }
@@ -697,12 +692,7 @@ namespace GMap.NET.WindowsForms
 
             for (int i = 0; i < route.Points.Count; i++)
             {
-                var p = FromLatLngToLocal(route.Points[i]);
-
-                if (!MobileMode)
-                {
-                    p.OffsetNegative(Core.RenderOffset);
-                }
+                var p = FromLatLngToLocalWithOffset(route.Points[i]);
 
                 route.LocalPoints.Add(p);
             }
@@ -720,12 +710,7 @@ namespace GMap.NET.WindowsForms
 
             for (int i = 0; i < polygon.Points.Count; i++)
             {
-                var p = FromLatLngToLocal(polygon.Points[i]);
-                if (!MobileMode)
-                {
-                    p.OffsetNegative(Core.RenderOffset);
-                }
-
+                var p = FromLatLngToLocalWithOffset(polygon.Points[i]);
                 polygon.LocalPoints.Add(p);
             }
 
@@ -2644,6 +2629,23 @@ namespace GMap.NET.WindowsForms
             }
 
             return ret;
+        }
+
+        /// <summary>
+        /// Gets the local coordinate from the world coordinate and apply the rendering offset.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public GPoint FromLatLngToLocalWithOffset(PointLatLng point)
+        {
+            var p = FromLatLngToLocal(point);
+
+            if (!MobileMode)
+            {
+                p.OffsetNegative(Core.RenderOffset);
+            }
+
+            return p;
         }
 
         /// <summary>
