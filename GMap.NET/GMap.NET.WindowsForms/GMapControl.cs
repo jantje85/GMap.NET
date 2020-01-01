@@ -2059,7 +2059,7 @@ namespace GMap.NET.WindowsForms
                                     rp.OffsetNegative(Core.RenderOffset);
                                 }
 
-                                if (m.LocalArea.Contains((int)rp.X, (int)rp.Y))
+                                if (m.Contains((int)rp.X, (int)rp.Y))
                                 {
                                     OnMarkerDoubleClick?.Invoke(m, e);
                                     overlayObjet = true;
