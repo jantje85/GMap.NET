@@ -2758,6 +2758,7 @@ namespace GMap.NET.WindowsForms
                         _zoomReal = value;
                     }
 
+                    int oldZoomStep = ZoomStep;
                     double remainder = value % 1;
                     if (ScaleMode == ScaleModes.Fractional && remainder != 0)
                     {
@@ -2772,8 +2773,11 @@ namespace GMap.NET.WindowsForms
                     {
                         _mapRenderTransform = null;
                         ZoomStep = (int)Math.Floor(value);
-                        //zoomReal = ZoomStep;
                     }
+
+                    // In case the Zoom step has not changed, the core won't have raised a zoom change event.. in that case, we raise it.
+                    if (oldZoomStep == ZoomStep)
+                        OnRenderTransformChanged?.Invoke();
 
                     if (Core.IsStarted && !IsDragging)
                     {
@@ -3241,6 +3245,7 @@ namespace GMap.NET.WindowsForms
             }
         }
 
+        private event MapZoomChanged OnRenderTransformChanged;
         /// <summary>
         ///     occurs on map zoom changed
         /// </summary>
@@ -3248,11 +3253,16 @@ namespace GMap.NET.WindowsForms
         {
             add
             {
+                // Internally we subscribe to 2 events: 
+                //    1. firstly to the zoom step changes of the core which result in a different tile being used
+                //    2. secondly, on render transformation changes which are not handled by the core, but involves zooming at rendering level.
                 Core.OnMapZoomChanged += value;
+                OnRenderTransformChanged += value;
             }
             remove
             {
                 Core.OnMapZoomChanged -= value;
+                OnRenderTransformChanged -= value;
             }
         }
 
