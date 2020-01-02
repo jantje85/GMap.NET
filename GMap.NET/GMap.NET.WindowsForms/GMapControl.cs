@@ -146,6 +146,7 @@ namespace GMap.NET.WindowsForms
         /// </summary>
         [Category("GMap.NET")]
         [Description("map zooming type for mouse wheel")]
+        [DefaultValue(MouseWheelZoomType.MousePositionAndCenter)]
         public MouseWheelZoomType MouseWheelZoomType
         {
             get
@@ -157,6 +158,22 @@ namespace GMap.NET.WindowsForms
                 Core.MouseWheelZoomType = value;
             }
         }
+
+        /// <summary>
+        /// The amount with which to change the <see cref="Zoom"/> when the user uses the mouse to zoom.
+        /// </summary>
+        [Category("GMap.NET")]
+        [Description("map zooming type for mouse wheel")]
+        [DefaultValue(1)]
+        public double MouseWheelZoomStep { get; set; } = 1;
+
+        /// <summary>
+        /// Enables MouseWheel zooming even when the pointer is in area of a marker.
+        /// </summary>
+        [Category("GMap.NET")]
+        [Description("Enables MouseWheel zooming even when the pointer is in area of a marker.")]
+        [DefaultValue(false)]
+        public bool IgnoreMarkerOnMouseWheel { get; set; }
 
         /// <summary>
         ///     Import From Kmz
@@ -202,6 +219,7 @@ namespace GMap.NET.WindowsForms
         /// </summary>
         [Category("GMap.NET")]
         [Description("enable map zoom on mouse wheel")]
+        [DefaultValue(true)]
         public bool MouseWheelZoomEnabled
         {
             get
@@ -2416,11 +2434,6 @@ namespace GMap.NET.WindowsForms
         /// </summary>
         public bool InvertedMouseWheelZooming = false;
 
-        /// <summary>
-        ///     lets you zoom by MouseWheel even when pointer is in area of marker
-        /// </summary>
-        public bool IgnoreMarkerOnMouseWheel = false;
-
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             base.OnMouseWheel(e);
@@ -2462,24 +2475,16 @@ namespace GMap.NET.WindowsForms
                 if (e.Delta > 0)
                 {
                     if (!InvertedMouseWheelZooming)
-                    {
-                        Zoom = (int)Zoom + 1;
-                    }
+                        Zoom += MouseWheelZoomStep;
                     else
-                    {
-                        Zoom = (int)(Zoom + 0.99) - 1;
-                    }
+                        Zoom -= MouseWheelZoomStep;
                 }
                 else if (e.Delta < 0)
                 {
                     if (!InvertedMouseWheelZooming)
-                    {
-                        Zoom = (int)(Zoom + 0.99) - 1;
-                    }
+                        Zoom -= MouseWheelZoomStep;
                     else
-                    {
-                        Zoom = (int)Zoom + 1;
-                    }
+                        Zoom += MouseWheelZoomStep;
                 }
 
                 Core.MouseWheelZooming = false;
