@@ -97,6 +97,7 @@ namespace GMap.NET.WindowsForms
             {
                 if (_area.Location != value)
                 {
+                    var oldPosition = _area.Location;
                     _area.Location = value;
                     {
                         if (Overlay != null && Overlay.Control != null)
@@ -107,8 +108,15 @@ namespace GMap.NET.WindowsForms
                             }
                         }
                     }
+
+                    // Notify listeners the markers position has been changed..
+                    OnLocalPositionChanged(oldPosition, _area.Location);
                 }
             }
+        }
+
+        protected virtual void OnLocalPositionChanged(Point oldPosition, Point newPosition)
+        {
         }
 
         /// <summary>
